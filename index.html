@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lumina — Design Without Limits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --p50:#EEEDFE;--p200:#AFA9EC;--p400:#7F77DD;--p600:#534AB7;--p800:#3C3489;--p900:#26215C;
+  --t50:#E1F5EE;--t600:#0F6E56;--a50:#FAEEDA;--a400:#BA7517;
+  --g50:#F7F7F6;--g100:#EEEEED;--g300:#BCBBB6;--g400:#888780;--g700:#444441;--g900:#1A1A19;
+  --white:#fff;--nav-h:68px;--r-md:10px;--r-lg:16px;--r-xl:24px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;color:var(--g900);background:var(--white);overflow-x:hidden;}
+
+/* ── NAV ── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:999;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 5vw;background:transparent;transition:background .35s,box-shadow .35s;}
+#nav.scrolled{background:rgba(255,255,255,.93);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.08);}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;text-decoration:none;transition:color .3s;}
+#nav.scrolled .nav-logo{color:var(--g900);}
+.nav-logo-mark{width:32px;height:32px;background:var(--p400);border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.nav-logo-mark svg{width:18px;height:18px;fill:#fff;}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none;}
+.nav-links a{display:block;padding:7px 16px;font-size:14px;font-weight:500;color:rgba(255,255,255,.8);text-decoration:none;border-radius:8px;transition:color .25s,background .25s;}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.12);}
+#nav.scrolled .nav-links a{color:var(--g700);}
+#nav.scrolled .nav-links a:hover{color:var(--g900);background:var(--g100);}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-ghost-nav{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;background:rgba(255,255,255,.15);color:#fff;border:none;cursor:pointer;text-decoration:none;transition:background .2s;}
+.btn-ghost-nav:hover{background:rgba(255,255,255,.25);}
+#nav.scrolled .btn-ghost-nav{background:var(--g100);color:var(--g900);}
+.btn-primary-nav{padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;background:var(--white);color:var(--p600);border:none;cursor:pointer;text-decoration:none;transition:background .2s,box-shadow .2s;}
+.btn-primary-nav:hover{background:var(--p50);box-shadow:0 0 0 2px var(--p200);}
+#nav.scrolled .btn-primary-nav{background:var(--p600);color:#fff;}
+#nav.scrolled .btn-primary-nav:hover{background:var(--p800);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:6px;}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .3s,opacity .3s;}
+#nav.scrolled .hamburger span{background:var(--g900);}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--g100);padding:1rem 5vw 1.5rem;z-index:998;transform:translateY(-10px);opacity:0;transition:transform .25s,opacity .25s;pointer-events:none;}
+.mobile-menu.open{transform:translateY(0);opacity:1;pointer-events:auto;}
+.mobile-menu a{display:block;padding:12px 0;font-size:16px;font-weight:500;color:var(--g900);text-decoration:none;border-bottom:1px solid var(--g100);}
+.mobile-cta-group{display:flex;flex-direction:column;gap:10px;margin-top:1.2rem;}
+.mobile-cta-group a{text-align:center;padding:12px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;border-bottom:none;}
+.mobile-login{background:var(--g100);color:var(--g900);}
+.mobile-signup{background:var(--p600);color:#fff;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;background:linear-gradient(150deg,var(--p900) 0%,var(--p600) 55%,#7764CB 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h) + 3rem) 5vw 5rem;position:relative;overflow:hidden;}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.hero-orb-1{width:500px;height:500px;background:rgba(127,119,221,.35);top:-100px;right:-100px;}
+.hero-orb-2{width:400px;height:400px;background:rgba(29,158,117,.2);bottom:-80px;left:-80px;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:6px 16px;font-size:13px;font-weight:500;color:rgba(255,255,255,.85);margin-bottom:1.5rem;}
+.hero-dot{width:7px;height:7px;background:#1D9E75;border-radius:50%;}
+#hero h1{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,80px);font-weight:800;line-height:1.05;letter-spacing:-1.5px;color:#fff;max-width:850px;margin-bottom:1.4rem;}
+#hero h1 em{font-style:normal;color:var(--p200);}
+#hero>p{font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,.7);max-width:520px;line-height:1.7;margin-bottom:2.5rem;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn-hp{padding:14px 30px;border-radius:12px;font-size:15px;font-weight:600;background:#fff;color:var(--p600);border:none;cursor:pointer;text-decoration:none;transition:background .2s,transform .15s,box-shadow .2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-hp:hover{background:var(--p50);transform:translateY(-1px);box-shadow:0 8px 24px rgba(38,33,92,.25);}
+.btn-ho{padding:14px 30px;border-radius:12px;font-size:15px;font-weight:500;background:transparent;color:rgba(255,255,255,.9);border:1.5px solid rgba(255,255,255,.35);cursor:pointer;text-decoration:none;transition:border-color .2s,background .2s,transform .15s;display:inline-flex;align-items:center;gap:8px;}
+.btn-ho:hover{border-color:#fff;background:rgba(255,255,255,.08);transform:translateY(-1px);}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;flex-wrap:wrap;justify-content:center;}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;line-height:1;}
+.hero-stat-label{font-size:13px;color:rgba(255,255,255,.55);margin-top:4px;}
+
+/* ── HERO IMAGE STRIP ── */
+.hero-image-strip{width:100%;max-width:900px;margin:3rem auto 0;position:relative;z-index:2;}
+.hero-img-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;border-radius:var(--r-xl);overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.4);}
+.hero-img-grid img{width:100%;height:200px;object-fit:cover;display:block;}
+.hero-img-grid img:first-child{height:220px;}
+
+/* ── LOGOS ── */
+#logos{padding:3rem 5vw;border-bottom:1px solid var(--g100);}
+.logos-label{text-align:center;font-size:13px;color:var(--g400);margin-bottom:2rem;}
+.logos-row{display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap;}
+.logo-item{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--g400);opacity:.6;transition:opacity .2s;}
+.logo-item:hover{opacity:1;}
+
+/* ── SECTIONS ── */
+.section{padding:6rem 5vw;}
+.section-alt{background:var(--g50);}
+.section-label{display:inline-block;font-size:12px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--p600);margin-bottom:12px;}
+.section-heading{font-family:'Syne',sans-serif;font-size:clamp(26px,4vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.8px;color:var(--g900);max-width:560px;margin-bottom:1rem;}
+.section-sub{font-size:16px;color:var(--g400);max-width:500px;line-height:1.7;margin-bottom:3rem;}
+
+/* ── AI IMAGE SECTION ── */
+.ai-showcase{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-top:2rem;}
+.ai-showcase-text{display:flex;flex-direction:column;gap:1rem;}
+.ai-showcase-img{border-radius:var(--r-xl);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.12);}
+.ai-showcase-img img{width:100%;height:360px;object-fit:cover;display:block;}
+.ai-gen-badge{display:inline-flex;align-items:center;gap:6px;background:var(--p50);color:var(--p600);border:1px solid var(--p200);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:600;width:fit-content;}
+.ai-gen-badge::before{content:'✦';font-size:11px;}
+#ai-image-output{border-radius:var(--r-xl);overflow:hidden;min-height:300px;background:var(--p50);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;position:relative;}
+#ai-image-output img{width:100%;height:360px;object-fit:cover;border-radius:var(--r-xl);}
+.ai-gen-controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;}
+.ai-prompt-input{flex:1;min-width:200px;padding:12px 16px;border-radius:10px;border:1.5px solid var(--g100);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.ai-prompt-input:focus{border-color:var(--p400);}
+.btn-ai-gen{padding:12px 22px;border-radius:10px;background:var(--p600);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.btn-ai-gen:hover{background:var(--p800);transform:translateY(-1px);}
+.btn-ai-gen:disabled{background:var(--g300);cursor:not-allowed;transform:none;}
+.ai-spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ai-placeholder-icon{font-size:40px;opacity:.3;}
+.ai-placeholder-text{font-size:14px;color:var(--g400);}
+
+/* ── FEATURES ── */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.feature-card{background:var(--white);border:1px solid var(--g100);border-radius:var(--r-lg);padding:2rem;transition:box-shadow .25s,transform .25s;cursor:default;}
+.feature-card:hover{box-shadow:0 12px 40px rgba(0,0,0,.07);transform:translateY(-3px);}
+.feature-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:22px;}
+.feature-card h3{font-size:17px;font-weight:600;color:var(--g900);margin-bottom:8px;}
+.feature-card p{font-size:14px;color:var(--g400);line-height:1.7;}
+.feature-tag{display:inline-block;margin-top:1rem;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:6px;background:var(--p50);color:var(--p600);}
+
+/* ── PHOTO GALLERY ── */
+.photo-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem;}
+.photo-gallery-item{border-radius:var(--r-lg);overflow:hidden;position:relative;cursor:pointer;}
+.photo-gallery-item img{width:100%;height:220px;object-fit:cover;display:block;transition:transform .4s;}
+.photo-gallery-item:hover img{transform:scale(1.05);}
+.photo-gallery-item:first-child{grid-row:span 2;}
+.photo-gallery-item:first-child img{height:100%;}
+.photo-caption{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(transparent,rgba(0,0,0,.6));color:#fff;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;}
+.photo-gallery-item:hover .photo-caption{opacity:1;}
+
+/* ── STEPS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;}
+.step{display:flex;flex-direction:column;padding:2rem 2.5rem 2rem 0;}
+.step-num{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;line-height:1;color:var(--g100);margin-bottom:1rem;}
+.step h3{font-size:18px;font-weight:600;color:var(--g900);margin-bottom:8px;}
+.step p{font-size:14px;color:var(--g400);line-height:1.7;}
+
+/* ── PRICING ── */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;align-items:start;}
+.pricing-card{border:1px solid var(--g100);border-radius:var(--r-xl);padding:2rem;background:var(--white);transition:box-shadow .25s;}
+.pricing-card:hover{box-shadow:0 16px 48px rgba(0,0,0,.08);}
+.pricing-card.featured{border-color:var(--p400);border-width:2px;position:relative;overflow:hidden;}
+.pricing-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--p600),var(--p400));}
+.pricing-badge{display:inline-block;margin-bottom:1.25rem;font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:5px 12px;border-radius:100px;background:var(--p50);color:var(--p600);}
+.pricing-name{font-size:14px;font-weight:600;color:var(--g400);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+.pricing-price{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;line-height:1;color:var(--g900);margin-bottom:4px;}
+.pricing-price span{font-size:20px;font-weight:500;vertical-align:super;}
+.pricing-period{font-size:14px;color:var(--g400);margin-bottom:1.75rem;}
+.pricing-features{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:12px;}
+.pricing-features li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--g700);}
+.pricing-features li::before{content:'✓';flex-shrink:0;margin-top:1px;width:18px;height:18px;border-radius:50%;background:var(--t50);color:var(--t600);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.btn-pricing{width:100%;padding:13px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;border:none;text-align:center;text-decoration:none;display:block;transition:background .2s,box-shadow .2s,transform .15s;}
+.btn-pricing:hover{transform:translateY(-1px);}
+.btn-pricing-outline{background:transparent;color:var(--g900);border:1.5px solid var(--g100);}
+.btn-pricing-outline:hover{background:var(--g50);}
+.btn-pricing-filled{background:var(--p600);color:#fff;}
+.btn-pricing-filled:hover{background:var(--p800);box-shadow:0 8px 24px rgba(83,74,183,.35);}
+
+/* ── TESTIMONIALS ── */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+.testimonial-card{background:var(--white);border:1px solid var(--g100);border-radius:var(--r-lg);padding:2rem;transition:box-shadow .2s;}
+.testimonial-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.06);}
+.testimonial-stars{color:#F59E0B;font-size:14px;margin-bottom:1rem;letter-spacing:2px;}
+.testimonial-text{font-size:15px;line-height:1.7;color:var(--g700);margin-bottom:1.5rem;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:12px;}
+.testimonial-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;}
+.testimonial-name{font-size:14px;font-weight:600;color:var(--g900);}
+.testimonial-role{font-size:13px;color:var(--g400);}
+
+/* ── NEWSLETTER / BACKEND ── */
+#backend-section{padding:5rem 5vw;background:var(--g50);border-top:1px solid var(--g100);}
+.backend-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.backend-panel{background:var(--white);border:1px solid var(--g100);border-radius:var(--r-xl);padding:2rem;}
+.backend-panel h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--g900);margin-bottom:8px;}
+.backend-panel p{font-size:14px;color:var(--g400);line-height:1.7;margin-bottom:1.5rem;}
+.form-row{display:flex;flex-direction:column;gap:12px;}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-field label{font-size:13px;font-weight:500;color:var(--g700);}
+.form-field input,.form-field textarea,.form-field select{padding:11px 14px;border-radius:9px;border:1.5px solid var(--g100);font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;background:var(--white);}
+.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--p400);}
+.form-field textarea{resize:vertical;min-height:100px;}
+.btn-submit{width:100%;padding:13px;border-radius:10px;background:var(--p600);color:#fff;border:none;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;}
+.btn-submit:hover{background:var(--p800);transform:translateY(-1px);}
+.btn-submit:disabled{background:var(--g300);cursor:not-allowed;transform:none;}
+.form-success{display:none;background:var(--t50);color:var(--t600);border:1px solid #A7E3CE;border-radius:10px;padding:14px 16px;font-size:14px;font-weight:500;text-align:center;margin-top:12px;}
+.form-success.show{display:block;}
+.subscribers-list{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;}
+.subscriber-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--g50);border-radius:9px;font-size:13px;}
+.subscriber-email{color:var(--g900);font-weight:500;}
+.subscriber-time{color:var(--g400);}
+.subscriber-tag{padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;background:var(--p50);color:var(--p600);}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:1.5rem;}
+.stat-box{background:var(--g50);border-radius:10px;padding:14px;text-align:center;}
+.stat-box-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--p600);}
+.stat-box-label{font-size:12px;color:var(--g400);margin-top:2px;}
+.empty-state{text-align:center;padding:2rem;color:var(--g400);font-size:14px;}
+
+/* ── CTA BANNER ── */
+#cta-banner{background:linear-gradient(135deg,var(--p900) 0%,var(--p600) 100%);padding:6rem 5vw;text-align:center;position:relative;overflow:hidden;}
+#cta-banner h2{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:800;letter-spacing:-1px;color:#fff;margin-bottom:1rem;line-height:1.1;}
+#cta-banner>p{font-size:17px;color:rgba(255,255,255,.7);margin-bottom:2.5rem;}
+
+/* ── FOOTER ── */
+footer{background:var(--g900);color:rgba(255,255,255,.6);padding:4rem 5vw 2rem;}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:3rem;margin-bottom:3rem;}
+.footer-brand p{font-size:14px;line-height:1.7;margin-top:1rem;max-width:240px;}
+.footer-logo{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px;text-decoration:none;}
+.footer-col h4{font-size:13px;font-weight:600;color:#fff;text-transform:uppercase;letter-spacing:.8px;margin-bottom:1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul a{font-size:14px;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s;}
+.footer-col ul a:hover{color:#fff;}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(255,255,255,.1);font-size:13px;flex-wrap:wrap;gap:12px;}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .ai-showcase{grid-template-columns:1fr;}
+  .backend-grid{grid-template-columns:1fr;}
+  .photo-gallery{grid-template-columns:1fr 1fr;}
+  .photo-gallery-item:first-child{grid-row:auto;}
+  .photo-gallery-item:first-child img{height:220px;}
+}
+@media(max-width:768px){
+  .nav-links,.nav-right{display:none;}
+  .hamburger{display:flex;}
+  .mobile-menu{display:flex;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-brand{grid-column:1/-1;}
+  .step{padding:1.5rem 0;border-bottom:1px solid var(--g100);}
+  .step:last-child{border-bottom:none;}
+  .hero-img-grid{grid-template-columns:1fr;}
+  .hero-img-grid img{height:160px;}
+  .photo-gallery{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .footer-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:2rem;}
+  .hero-btns{flex-direction:column;align-items:center;}
+  .btn-hp,.btn-ho{width:100%;justify-content:center;}
+  .stats-row{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;}
+  *{transition-duration:.01ms!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Main">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark"><svg viewBox="0 0 18 18"><polygon points="9,1 17,5 17,13 9,17 1,13 1,5"/></svg></div>
+    Lumina
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#ai-studio">AI Studio</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#backend-section">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#" class="btn-ghost-nav">Log in</a>
+    <a href="#" class="btn-primary-nav">Get started free</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <a href="#features" class="mobile-link">Features</a>
+  <a href="#gallery" class="mobile-link">Gallery</a>
+  <a href="#ai-studio" class="mobile-link">AI Studio</a>
+  <a href="#pricing" class="mobile-link">Pricing</a>
+  <a href="#backend-section" class="mobile-link">Contact</a>
+  <div class="mobile-cta-group">
+    <a href="#" class="mobile-login">Log in</a>
+    <a href="#" class="mobile-signup">Get started free</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-eyebrow"><span class="hero-dot"></span> Now in public beta — join 12,000+ teams</div>
+  <h1>Build products people<br><em>actually love</em></h1>
+  <p>Lumina gives your team one place to design, collaborate, and ship — without the chaos of switching tools all day.</p>
+  <div class="hero-btns">
+    <a href="#" class="btn-hp">Start for free <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="#" class="btn-ho">Watch demo (2 min) <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 5l4 2-4 2V5z" fill="currentColor"/></svg></a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-num">12k+</div><div class="hero-stat-label">Active teams</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">98%</div><div class="hero-stat-label">Customer satisfaction</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">3×</div><div class="hero-stat-label">Faster shipping</div></div>
+  </div>
+  <!-- Free Unsplash images in hero strip -->
+  <div class="hero-image-strip reveal">
+    <div class="hero-img-grid">
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80&auto=format&fit=crop" alt="Team collaborating in a modern workspace" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80&auto=format&fit=crop" alt="Developers working on laptops" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1531498860502-7c67cf519d9e?w=600&q=80&auto=format&fit=crop" alt="Design brainstorming session" loading="lazy"/>
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<div id="logos">
+  <p class="logos-label">Trusted by teams at</p>
+  <div class="logos-row">
+    <span class="logo-item">Stripe</span>
+    <span class="logo-item">Linear</span>
+    <span class="logo-item">Notion</span>
+    <span class="logo-item">Vercel</span>
+    <span class="logo-item">Figma</span>
+    <span class="logo-item">Loom</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="reveal"><span class="section-label">Features</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Everything your team needs in one place</h2>
+  <p class="section-sub reveal reveal-delay-2">No more juggling six apps. Lumina combines the tools modern product teams rely on every day.</p>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:#EEEDFE;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2" fill="#534AB7"/><rect x="12" y="2" width="8" height="8" rx="2" fill="#AFA9EC"/><rect x="2" y="12" width="8" height="8" rx="2" fill="#AFA9EC"/><rect x="12" y="12" width="8" height="8" rx="2" fill="#534AB7"/></svg></div>
+      <h3>Unified workspace</h3>
+      <p>Designs, docs, tasks, and chats live side by side. Your team stays in context instead of context-switching.</p>
+      <span class="feature-tag">Collaboration</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-icon" style="background:#E1F5EE;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 11h14M11 4l7 7-7 7" stroke="#0F6E56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3>Ship without friction</h3>
+      <p>One-click deploys, automated review flows, and built-in QA checks so your work goes live without red tape.</p>
+      <span class="feature-tag" style="background:#E1F5EE;color:#0F6E56;">Shipping</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-icon" style="background:#FAEEDA;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="12" width="4" height="8" rx="1" fill="#BA7517"/><rect x="9" y="7" width="4" height="13" rx="1" fill="#BA7517"/><rect x="16" y="3" width="4" height="17" rx="1" fill="#BA7517"/></svg></div>
+      <h3>Real-time analytics</h3>
+      <p>Live dashboards for every project. Know what's working and where to focus before the standup ends.</p>
+      <span class="feature-tag" style="background:#FAEEDA;color:#BA7517;">Insights</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:#FAECE7;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#993C1D" stroke-width="1.8"/><path d="M8 11l2 2 4-4" stroke="#993C1D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h3>Granular permissions</h3>
+      <p>Role-based access that's actually intuitive. Give people exactly what they need, nothing more.</p>
+      <span class="feature-tag" style="background:#FAECE7;color:#993C1D;">Security</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-icon" style="background:#E6F1FB;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="7" cy="7" r="4" stroke="#185FA5" stroke-width="1.8"/><line x1="11" y1="7" x2="20" y2="7" stroke="#185FA5" stroke-width="1.8"/><circle cx="7" cy="15" r="4" stroke="#185FA5" stroke-width="1.8"/><line x1="11" y1="15" x2="20" y2="15" stroke="#185FA5" stroke-width="1.8"/></svg></div>
+      <h3>500+ integrations</h3>
+      <p>Slack, GitHub, Jira, Figma — connect the tools you already love in under 60 seconds.</p>
+      <span class="feature-tag" style="background:#E6F1FB;color:#185FA5;">Integrations</span>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-icon" style="background:#EAF3DE;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3l2 6h6l-5 3.5 2 6L11 15l-5 3.5 2-6L3 9h6l2-6z" stroke="#3B6D11" stroke-width="1.5" fill="none"/></svg></div>
+      <h3>AI-assisted reviews</h3>
+      <p>Catch issues before they reach production. Smart suggestions that learn your team's standards over time.</p>
+      <span class="feature-tag" style="background:#EAF3DE;color:#3B6D11;">AI</span>
+    </div>
+  </div>
+</section>
+
+<!-- FREE PHOTO GALLERY -->
+<section class="section section-alt" id="gallery">
+  <div class="reveal"><span class="section-label">Gallery</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Real teams, real results</h2>
+  <p class="section-sub reveal reveal-delay-2">See how modern product teams use Lumina to collaborate, design, and ship faster every day.</p>
+  <div class="photo-gallery reveal">
+    <div class="photo-gallery-item">
+      <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=700&q=80&auto=format&fit=crop" alt="Team collaborating around a table" loading="lazy"/>
+      <div class="photo-caption">Team collaboration session</div>
+    </div>
+    <div class="photo-gallery-item">
+      <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&q=80&auto=format&fit=crop" alt="Designer working on UI" loading="lazy"/>
+      <div class="photo-caption">UI design in action</div>
+    </div>
+    <div class="photo-gallery-item">
+      <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=500&q=80&auto=format&fit=crop" alt="Product planning on whiteboard" loading="lazy"/>
+      <div class="photo-caption">Product planning</div>
+    </div>
+    <div class="photo-gallery-item">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=500&q=80&auto=format&fit=crop" alt="Open office with developers" loading="lazy"/>
+      <div class="photo-caption">Open workspace</div>
+    </div>
+    <div class="photo-gallery-item">
+      <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&q=80&auto=format&fit=crop" alt="Remote team video call" loading="lazy"/>
+      <div class="photo-caption">Remote team sync</div>
+    </div>
+  </div>
+</section>
+
+<!-- AI IMAGE STUDIO -->
+<section class="section" id="ai-studio">
+  <div class="reveal"><span class="section-label">AI Studio</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Generate images with AI</h2>
+  <p class="section-sub reveal reveal-delay-2">Powered by Claude — type any prompt and instantly generate a custom image for your project.</p>
+  <div class="ai-showcase reveal">
+    <div class="ai-showcase-text">
+      <div class="ai-gen-badge">AI Image Generator</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--g900);line-height:1.2;">Create visuals instantly with AI</h3>
+      <p style="font-size:15px;color:var(--g400);line-height:1.7;">Type a description and our AI will generate a unique, copyright-free image in seconds. Perfect for mockups, presentations, and creative exploration.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g700);"><span style="width:20px;height:20px;background:var(--t50);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--t600);flex-shrink:0;">✓</span>100% unique, copyright-free images</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g700);"><span style="width:20px;height:20px;background:var(--t50);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--t600);flex-shrink:0;">✓</span>Generated in seconds</div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:var(--g700);"><span style="width:20px;height:20px;background:var(--t50);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--t600);flex-shrink:0;">✓</span>Powered by Claude AI</div>
+      </div>
+      <div class="ai-gen-controls">
+        <input type="text" id="ai-prompt" class="ai-prompt-input" placeholder="e.g. futuristic team workspace with purple lighting" value="modern product team collaborating in a bright open office"/>
+        <button class="btn-ai-gen" id="ai-gen-btn" onclick="generateAIImage()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 4.5H14l-3.5 2.5 1.5 4.5L8 10l-4 2.5 1.5-4.5L2 5.5h4.5L8 1z" fill="white"/></svg>
+          Generate
+        </button>
+      </div>
+    </div>
+    <div class="ai-showcase-img">
+      <div id="ai-image-output">
+        <div class="ai-placeholder-icon">✦</div>
+        <div class="ai-placeholder-text">Your AI-generated image will appear here</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-alt" id="how">
+  <div class="reveal"><span class="section-label">How it works</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Up and running in an afternoon</h2>
+  <p class="section-sub reveal reveal-delay-2">We designed Lumina so teams see value on day one — no lengthy onboarding required.</p>
+  <div class="steps-grid">
+    <div class="step reveal"><div class="step-num">01</div><h3>Create your workspace</h3><p>Sign up and invite your team in under two minutes. Migrate from Notion, Linear, or Figma with one click.</p></div>
+    <div class="step reveal reveal-delay-1"><div class="step-num">02</div><h3>Connect your tools</h3><p>Plug in GitHub, Slack, and your existing stack. Lumina lives where your work already happens.</p></div>
+    <div class="step reveal reveal-delay-2"><div class="step-num">03</div><h3>Build together</h3><p>Real-time multiplayer editing, threaded comments, and version history keep everyone aligned.</p></div>
+    <div class="step reveal reveal-delay-3"><div class="step-num">04</div><h3>Ship with confidence</h3><p>Automated checks, one-click deploys, and post-ship analytics close the loop every release.</p></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="reveal"><span class="section-label">Pricing</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Simple, honest pricing</h2>
+  <p class="section-sub reveal reveal-delay-2">No seat multipliers, no feature paywalls. Pick the plan that fits, upgrade when you're ready.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-name">Starter</div>
+      <div class="pricing-price">Free</div>
+      <div class="pricing-period">Up to 5 members · forever</div>
+      <ul class="pricing-features"><li>3 active projects</li><li>5 GB storage</li><li>Community support</li><li>Core integrations</li></ul>
+      <a href="#" class="btn-pricing btn-pricing-outline">Get started free</a>
+    </div>
+    <div class="pricing-card featured reveal reveal-delay-1">
+      <div class="pricing-badge">Most popular</div>
+      <div class="pricing-name">Pro</div>
+      <div class="pricing-price"><span>$</span>29</div>
+      <div class="pricing-period">per member / month</div>
+      <ul class="pricing-features"><li>Unlimited projects</li><li>100 GB storage</li><li>Priority support (SLA 4h)</li><li>All 500+ integrations</li><li>AI-assisted reviews</li><li>Advanced analytics</li></ul>
+      <a href="#" class="btn-pricing btn-pricing-filled">Start Pro trial</a>
+    </div>
+    <div class="pricing-card reveal reveal-delay-2">
+      <div class="pricing-name">Enterprise</div>
+      <div class="pricing-price" style="font-size:32px;">Custom</div>
+      <div class="pricing-period">Volume pricing · annual billing</div>
+      <ul class="pricing-features"><li>Unlimited everything</li><li>SSO &amp; SCIM provisioning</li><li>Dedicated success manager</li><li>Custom SLA</li><li>On-prem / private cloud</li><li>Security audit logs</li></ul>
+      <a href="#" class="btn-pricing btn-pricing-outline">Talk to sales</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section section-alt" id="testimonials">
+  <div class="reveal"><span class="section-label">Reviews</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Teams that switched, stayed</h2>
+  <p class="section-sub reveal reveal-delay-2">Don't take our word for it — here's what people building real products say.</p>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"We cut our release cycle from two weeks to three days. The integrated deploy flow alone was worth the switch."</p>
+      <div class="testimonial-author"><div class="testimonial-avatar" style="background:#534AB7;">SR</div><div><div class="testimonial-name">Sarah R.</div><div class="testimonial-role">Head of Engineering, Carto</div></div></div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-1">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Onboarding new designers used to take a week. With Lumina it's an afternoon. The learning curve is basically flat."</p>
+      <div class="testimonial-author"><div class="testimonial-avatar" style="background:#0F6E56;">JK</div><div><div class="testimonial-name">Jamie K.</div><div class="testimonial-role">Design Lead, Dwell</div></div></div>
+    </div>
+    <div class="testimonial-card reveal reveal-delay-2">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"The analytics surfaced a UX bottleneck we'd missed for months. Fixed it in a sprint. Retention went up 18%."</p>
+      <div class="testimonial-author"><div class="testimonial-avatar" style="background:#BA7517;">MT</div><div><div class="testimonial-name">Marcus T.</div><div class="testimonial-role">CPO, Beacon Labs</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKEND: NEWSLETTER + CONTACT + DASHBOARD -->
+<section id="backend-section">
+  <div class="reveal"><span class="section-label">Stay Connected</span></div>
+  <h2 class="section-heading reveal reveal-delay-1">Newsletter & Contact</h2>
+  <p class="section-sub reveal reveal-delay-2">Subscribe for updates or send us a message — our team replies within 24 hours.</p>
+  <div class="backend-grid">
+    <!-- NEWSLETTER FORM -->
+    <div class="backend-panel reveal">
+      <h3>📬 Join our newsletter</h3>
+      <p>Get product updates, tips, and early access to new features — no spam, unsubscribe any time.</p>
+      <div class="form-row" id="newsletter-form">
+        <div class="form-field"><label for="sub-name">Your name</label><input type="text" id="sub-name" placeholder="Alex Johnson"/></div>
+        <div class="form-field"><label for="sub-email">Email address</label><input type="email" id="sub-email" placeholder="alex@company.com"/></div>
+        <div class="form-field">
+          <label for="sub-plan">Interested in</label>
+          <select id="sub-plan">
+            <option value="all">All updates</option>
+            <option value="product">Product updates only</option>
+            <option value="tips">Tips &amp; tutorials</option>
+            <option value="early">Early access only</option>
+          </select>
+        </div>
+        <button class="btn-submit" id="sub-btn" onclick="handleSubscribe()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2l6 6-6 6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Subscribe now
+        </button>
+        <div class="form-success" id="sub-success">🎉 You're subscribed! Check your inbox for a confirmation.</div>
+      </div>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="backend-panel reveal reveal-delay-1">
+      <h3>💬 Send us a message</h3>
+      <p>Have a question or want to see a demo? Fill out the form and we'll get back to you shortly.</p>
+      <div class="form-row" id="contact-form">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-field"><label for="c-name">Name</label><input type="text" id="c-name" placeholder="Your name"/></div>
+          <div class="form-field"><label for="c-email">Email</label><input type="email" id="c-email" placeholder="you@company.com"/></div>
+        </div>
+        <div class="form-field"><label for="c-subject">Subject</label><input type="text" id="c-subject" placeholder="How can we help?"/></div>
+        <div class="form-field"><label for="c-msg">Message</label><textarea id="c-msg" placeholder="Tell us more about your needs..."></textarea></div>
+        <button class="btn-submit" id="contact-btn" onclick="handleContact()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 2L2 7l5 2 2 5 5-12z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Send message
+        </button>
+        <div class="form-success" id="contact-success">✅ Message sent! We'll reply within 24 hours.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBSCRIBER DASHBOARD -->
+  <div style="margin-top:3rem;" class="reveal">
+    <div class="backend-panel">
+      <h3>📊 Live subscriber dashboard</h3>
+      <p>A real-time view of newsletter signups — this updates as people subscribe on this page.</p>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-box-num" id="total-count">0</div><div class="stat-box-label">Total subscribers</div></div>
+        <div class="stat-box"><div class="stat-box-num" id="today-count">0</div><div class="stat-box-label">Joined today</div></div>
+        <div class="stat-box"><div class="stat-box-num" id="msg-count">0</div><div class="stat-box-label">Messages received</div></div>
+      </div>
+      <div class="subscribers-list" id="subscribers-list">
+        <div class="empty-state">No subscribers yet — be the first! 👆</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="cta-banner">
+  <div class="hero-orb" style="width:400px;height:400px;background:rgba(127,119,221,.3);top:-100px;right:-80px;position:absolute;"></div>
+  <h2 class="reveal">Ready to build something<br>people love?</h2>
+  <p class="reveal reveal-delay-1">Join 12,000 teams. Free forever on Starter, no credit card needed.</p>
+  <div class="hero-btns reveal reveal-delay-2" style="justify-content:center;">
+    <a href="#" class="btn-hp">Start for free</a>
+    <a href="#" class="btn-ho">Schedule a demo</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="footer-logo"><div class="nav-logo-mark"><svg viewBox="0 0 18 18" fill="white" width="16" height="16"><polygon points="9,1 17,5 17,13 9,17 1,13 1,5"/></svg></div>Lumina</a>
+      <p>One workspace for design, collaboration, and shipping. Built for teams who move fast.</p>
+    </div>
+    <div class="footer-col"><h4>Product</h4><ul><li><a href="#">Features</a></li><li><a href="#">Pricing</a></li><li><a href="#">Changelog</a></li><li><a href="#">Roadmap</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li></ul></div>
+    <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Security</a></li><li><a href="#">Cookies</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Lumina Inc. All rights reserved.</span>
+    <span>Photos: Unsplash (free licence) · AI images: Claude</span>
+  </div>
+</footer>
+
+<script>
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60), {passive:true});
+
+/* ── HAMBURGER ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  const open = hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open', open);
+  hamburger.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+  hamburger.classList.remove('open'); mobileMenu.classList.remove('open');
+}));
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const t = document.querySelector(a.getAttribute('href'));
+  if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth',block:'start'}); }
+}));
+
+/* ── BACKEND: LOCAL STATE ── */
+let subscribers = [];
+let messages = [];
+
+function updateDashboard(){
+  document.getElementById('total-count').textContent = subscribers.length;
+  document.getElementById('today-count').textContent = subscribers.length;
+  document.getElementById('msg-count').textContent = messages.length;
+  const list = document.getElementById('subscribers-list');
+  if(subscribers.length === 0){
+    list.innerHTML = '<div class="empty-state">No subscribers yet — be the first! 👆</div>';
+  } else {
+    list.innerHTML = subscribers.slice().reverse().map(s => `
+      <div class="subscriber-item">
+        <span class="subscriber-email">${s.email}</span>
+        <span class="subscriber-time">${s.time}</span>
+        <span class="subscriber-tag">${s.interest}</span>
+      </div>
+    `).join('');
+  }
+}
+
+/* ── NEWSLETTER ── */
+function handleSubscribe(){
+  const name = document.getElementById('sub-name').value.trim();
+  const email = document.getElementById('sub-email').value.trim();
+  const interest = document.getElementById('sub-plan').value;
+  const btn = document.getElementById('sub-btn');
+  const success = document.getElementById('sub-success');
+  if(!email || !email.includes('@')){ alert('Please enter a valid email address.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<div class="ai-spinner"></div> Subscribing...';
+  setTimeout(() => {
+    const now = new Date();
+    const time = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    const interestMap = {all:'All updates', product:'Product', tips:'Tips', early:'Early access'};
+    subscribers.push({name: name||'Anonymous', email, interest: interestMap[interest]||interest, time});
+    updateDashboard();
+    btn.innerHTML = '✓ Subscribed!';
+    btn.style.background = '#0F6E56';
+    success.classList.add('show');
+    document.getElementById('sub-name').value='';
+    document.getElementById('sub-email').value='';
+  }, 800);
+}
+
+/* ── CONTACT ── */
+function handleContact(){
+  const name = document.getElementById('c-name').value.trim();
+  const email = document.getElementById('c-email').value.trim();
+  const subject = document.getElementById('c-subject').value.trim();
+  const msg = document.getElementById('c-msg').value.trim();
+  const btn = document.getElementById('contact-btn');
+  const success = document.getElementById('contact-success');
+  if(!email || !email.includes('@')){ alert('Please enter a valid email address.'); return; }
+  if(!msg){ alert('Please enter a message.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<div class="ai-spinner"></div> Sending...';
+  setTimeout(() => {
+    messages.push({name, email, subject, msg, time: new Date().toLocaleTimeString()});
+    updateDashboard();
+    btn.innerHTML = '✓ Sent!';
+    btn.style.background = '#0F6E56';
+    success.classList.add('show');
+    document.getElementById('c-name').value='';
+    document.getElementById('c-email').value='';
+    document.getElementById('c-subject').value='';
+    document.getElementById('c-msg').value='';
+  }, 900);
+}
+
+/* ── AI IMAGE GENERATION ── */
+async function generateAIImage(){
+  const prompt = document.getElementById('ai-prompt').value.trim();
+  const btn = document.getElementById('ai-gen-btn');
+  const output = document.getElementById('ai-image-output');
+  if(!prompt){ alert('Please enter a prompt first.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<div class="ai-spinner"></div> Generating...';
+  output.innerHTML = `
+    <div class="ai-spinner" style="width:36px;height:36px;border-width:3px;border-color:rgba(83,74,183,.2);border-top-color:var(--p600);"></div>
+    <div style="font-size:14px;color:var(--g400);margin-top:8px;">Creating your image with AI…</div>
+  `;
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1024,
+        messages: [{
+          role: 'user',
+          content: `Generate a detailed, vivid SVG illustration for a tech SaaS landing page based on this description: "${prompt}". 
+          Create a beautiful, modern SVG that:
+          - Uses a purple/indigo color palette (#534AB7, #7F77DD, #AFA9EC, #26215C) with teal accents (#1D9E75)
+          - Has a clean, professional look suitable for a product website
+          - Includes geometric shapes, abstract forms, or stylized scenes
+          - Is 600x360 pixels viewBox
+          - Contains rich visual elements that represent the concept
+          Return ONLY the raw SVG code starting with <svg and ending with </svg>, nothing else.`
+        }]
+      })
+    });
+    const data = await response.json();
+    const svgCode = data.content?.[0]?.text || '';
+    const svgMatch = svgCode.match(/<svg[\s\S]*<\/svg>/i);
+    if(svgMatch){
+      output.innerHTML = svgMatch[0];
+      const svg = output.querySelector('svg');
+      if(svg){ svg.style.width='100%'; svg.style.height='360px'; svg.style.borderRadius='var(--r-xl)'; }
+    } else {
+      // fallback: show a styled SVG placeholder
+      output.innerHTML = generateFallbackSVG(prompt);
+    }
+  } catch(err) {
+    output.innerHTML = generateFallbackSVG(prompt);
+  }
+  btn.disabled = false;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 4.5H14l-3.5 2.5 1.5 4.5L8 10l-4 2.5 1.5-4.5L2 5.5h4.5L8 1z" fill="white"/></svg> Generate again';
+}
+
+function generateFallbackSVG(prompt){
+  const words = prompt.split(' ').slice(0,3).join(' ');
+  return `<svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:360px;border-radius:var(--r-xl)">
+    <defs>
+      <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#26215C"/>
+        <stop offset="100%" style="stop-color:#534AB7"/>
+      </linearGradient>
+      <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" style="stop-color:#7F77DD"/>
+        <stop offset="100%" style="stop-color:#1D9E75"/>
+      </linearGradient>
+    </defs>
+    <rect width="600" height="360" fill="url(#bg)"/>
+    <circle cx="480" cy="80" r="120" fill="#7F77DD" opacity="0.2"/>
+    <circle cx="100" cy="300" r="100" fill="#1D9E75" opacity="0.15"/>
+    <rect x="60" y="80" width="240" height="6" rx="3" fill="url(#accent)" opacity="0.8"/>
+    <rect x="60" y="100" width="180" height="4" rx="2" fill="white" opacity="0.3"/>
+    <rect x="60" y="118" width="200" height="4" rx="2" fill="white" opacity="0.2"/>
+    <rect x="60" y="160" width="120" height="36" rx="10" fill="#1D9E75"/>
+    <text x="120" y="183" font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="white" text-anchor="middle">Get started</text>
+    <rect x="340" y="60" width="200" height="240" rx="16" fill="white" opacity="0.08"/>
+    <rect x="360" y="80" width="160" height="100" rx="10" fill="white" opacity="0.1"/>
+    <rect x="360" y="196" width="70" height="8" rx="4" fill="white" opacity="0.3"/>
+    <rect x="360" y="212" width="110" height="6" rx="3" fill="white" opacity="0.2"/>
+    <rect x="360" y="228" width="90" height="6" rx="3" fill="white" opacity="0.2"/>
+    <text x="300" y="330" font-family="Inter,sans-serif" font-size="12" fill="white" opacity="0.4" text-anchor="middle">AI image: ${words}</text>
+  </svg>`;
+}
+</script>
+</body>
+</html>
